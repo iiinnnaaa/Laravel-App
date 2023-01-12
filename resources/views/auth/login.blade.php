@@ -22,5 +22,6 @@
 
     <!-- Submit button -->
     <input type="submit" value="Sign in" class="btn btn-primary btn-block mb-4">
+    <a class="nav-link" href="{{ route('registration') }}">Register</a>
 
 </form>

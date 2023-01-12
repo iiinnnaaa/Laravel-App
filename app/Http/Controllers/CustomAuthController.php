@@ -26,10 +26,17 @@ class CustomAuthController extends Controller
         if (Auth::attempt($credentials)) {
             return redirect()->route('account');
         }
+        else{
+            return redirect()->back()->with(['error' => 'Login Failed. Please try again.']);
+        }
     }
 
     public function registration()
     {
+//        $roles = RoleController::all();
+//        $selectedRole = User::first()->role_id;
+//
+//        return view('auth.register', ['roles'=>$selectedRole]);
         return view('auth.register');
     }
 
@@ -38,6 +45,7 @@ class CustomAuthController extends Controller
         $data = $request->validate([
             'email' => ['required', 'string', 'unique:users,email'],
             'name' => ['required', 'string'],
+            'role' => ['required'],
             'password' => ['required', 'string', 'min:6', 'max:20'],
         ]);
 
@@ -45,6 +53,7 @@ class CustomAuthController extends Controller
             User::query()->create([
                 'name' => $data['name'],
                 'email' => $data['email'],
+                'role_id' => $data['role'],
                 'password' => Hash::make($data['password']),
             ]);
 
@@ -69,13 +78,41 @@ class CustomAuthController extends Controller
     }
 
     public function update(){
-        return view('auth.update');
+        $user = [];
+        if (Auth::check()) {
+            $user = [
+                'name' => Auth::user()->name,
+                'email' => Auth::user()->email,
+            ];
+        }
+
+        return view('auth.update', ['user' => $user]);
     }
 
-    public function edit(){
+    public function edit(Request $request){
         if(Auth::check()){
-            $user = User::query()->get()->where( 'name', Auth::user()->name);
+            $data = $request->validate([
+                'email' => ['email'],
+                'name' => ['string'],
+                'role' => ['required', 'string'],
+            ]);
 
+            try {
+                Auth::user()->update([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'role_id' => $data['role'],
+                ]);
+
+                return redirect()->route('account');
+
+            } catch (\Exception $e) {
+                return redirect()->back()->with(['error' => $e->getMessage()]);
+            }
+
+            // create migration for add column to users table "role id" foreign key with roles table, on registration select roles. Add change role in update
+            // Laravel relation -  show role in account page (User model/Role model|hasone-belongs)
+            //
         }
     }
 
