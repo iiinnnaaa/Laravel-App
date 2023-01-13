@@ -5,6 +5,9 @@
     <div class="email">
         <div>Email: {{ $user['email'] }}</div>
     </div>
+    <div class="role">
+        <div>Role: {{ $user['role'] }}</div>
+    </div>
 </div>
 <div>
     <div class="edit">

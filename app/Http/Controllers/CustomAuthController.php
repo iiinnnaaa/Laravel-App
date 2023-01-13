@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,17 +27,10 @@ class CustomAuthController extends Controller
         if (Auth::attempt($credentials)) {
             return redirect()->route('account');
         }
-        else{
-            return redirect()->back()->with(['error' => 'Login Failed. Please try again.']);
-        }
     }
 
     public function registration()
     {
-//        $roles = RoleController::all();
-//        $selectedRole = User::first()->role_id;
-//
-//        return view('auth.register', ['roles'=>$selectedRole]);
         return view('auth.register');
     }
 
@@ -68,16 +62,20 @@ class CustomAuthController extends Controller
     {
         $user = [];
         if (Auth::check()) {
+            $role = Role::query()->where('id', Auth::user()->role_id)->get()->value('name');
             $user = [
                 'name' => Auth::user()->name,
                 'email' => Auth::user()->email,
+                'role' => $role,
             ];
+
         }
 
         return view('auth.account', ['user' => $user]);
     }
 
-    public function update(){
+    public function update()
+    {
         $user = [];
         if (Auth::check()) {
             $user = [
@@ -89,12 +87,13 @@ class CustomAuthController extends Controller
         return view('auth.update', ['user' => $user]);
     }
 
-    public function edit(Request $request){
-        if(Auth::check()){
+    public function edit(Request $request)
+    {
+        if (Auth::check()) {
             $data = $request->validate([
                 'email' => ['email'],
                 'name' => ['string'],
-                'role' => ['required', 'string'],
+                'role' => ['string'],
             ]);
 
             try {
