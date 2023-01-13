@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\HomeController;
@@ -32,6 +35,22 @@ Route::get('fetch-roles', [RoleController::class, 'fetchRoles']);
 //Route::get('/roles', [RoleController::class, 'index'])->name('registration');
 Route::get('register', [CustomAuthController::class, 'registration'])->name('registration');
 Route::post('register', [CustomAuthController::class, 'customRegistration'])->name('registration');
+
+Route::get('/user/{id}', function ($id) {
+    return new UserResource(User::findOrFail($id));
+});
+
+Route::get('/users', function () {
+    return UserResource::collection(User::all());
+});
+
+Route::get('/users', function () {
+    return new UserCollection(User::all());
+});
+
+Route::get('/users', function () {
+    return UserResource::collection(User::all()->keyBy->id);
+});
 
 Route::middleware('authenticated')->group(function () {
     Route::get('home', [HomeController::class, 'index'])->name('home');
