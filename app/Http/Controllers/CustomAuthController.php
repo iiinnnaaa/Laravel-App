@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Hash;
 
 class CustomAuthController extends Controller
 {
+    // API Auth (sanctum)
+    // API resources
+    // Create Products Table (id name count price)
+    // API CRUD for Products
+
     public function index()
     {
         return view('auth.login');
