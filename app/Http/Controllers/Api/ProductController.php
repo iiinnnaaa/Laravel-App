@@ -16,9 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-
-        return $products;
+        return ProductResource::collection(Product::all());
     }
 
     /**
@@ -50,7 +48,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return new ProductResource($product);
     }
 
     /**
@@ -73,15 +71,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-//        $data=[
-//            'name'=>$request->name,
-//            'count'=>$request->count,
-//            'price'=>$request->price,
-//        ];
-//
-//        return $product->update($data);
+        $product->update($request->all());
 
-        return $product->update($request->all());
+        return new ProductResource($product);
     }
 
     /**

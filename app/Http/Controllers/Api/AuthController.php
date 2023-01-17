@@ -13,10 +13,9 @@ class AuthController extends Controller
 {
     public function createUser(Request $request)
     {
-
-        $data = Validator::make($request->all(), [
+        $data = $request->validate([
             'name' => 'required',
-            'email' => ['required', 'emial', 'unique:users,email'],
+            'email' => ['required', 'email', 'unique:users,email'],
             'role_id' => ['required'],
             'password' => 'required',
         ]);
@@ -43,26 +42,27 @@ class AuthController extends Controller
         }
     }
 
-    public function loginUser(Request $request){
+    public function loginUser(Request $request)
+    {
 
-        $data = Validator::make($request->all(),[
-           'email' => ['required', 'email'],
+        $data = $request->validate([
+            'email' => ['required', 'email'],
             'password' => 'required',
         ]);
 
 
-        if(!Auth::attempt($request->only(['email', 'password']))){
+        if (!Auth::attempt($request->only(['email', 'password']))) {
             return response()->json([
                 'status' => false,
                 'message' => 'Email or Password does not match with our record.',
             ], 401);
         }
 
-        $user = User::query()->where('email',$request->email)->first();
+        $user = User::query()->where('email', $request->email)->first();
 
         return response()->json([
-           'status' => true,
-           'message' => 'Logged in successfully',
+            'status' => true,
+            'message' => 'Logged in successfully',
             'token' => $user->createToken("API TOKEN")->plainTextToken], 200
         );
     }
