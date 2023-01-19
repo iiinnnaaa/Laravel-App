@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class CustomAuthController extends Controller
 {
@@ -20,13 +23,8 @@ class CustomAuthController extends Controller
         return view('auth.login');
     }
 
-    public function customLogin(Request $request)
+    public function customLogin(LoginRequest $request)
     {
-        $request->validate([
-            'email' => ['required', 'string'],
-            'password' => ['required', 'string', 'min:6', 'max:20'],
-        ]);
-
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
@@ -59,6 +57,7 @@ class CustomAuthController extends Controller
             return redirect()->route('login');
 
         } catch (\Exception $e) {
+//            dd($e->getMessage());
             return redirect()->back()->with(['error' => $e->getMessage()]);
         }
     }
@@ -68,10 +67,12 @@ class CustomAuthController extends Controller
         $user = [];
         if (Auth::check()) {
             $role = Role::query()->where('id', Auth::user()->role_id)->get()->value('name');
+//            auth()->user()->role()->name
             $user = [
                 'name' => Auth::user()->name,
                 'email' => Auth::user()->email,
                 'role' => $role,
+                'image' => Auth::user()->image,
             ];
 
         }
@@ -86,6 +87,7 @@ class CustomAuthController extends Controller
             $user = [
                 'name' => Auth::user()->name,
                 'email' => Auth::user()->email,
+                'image' => Auth::user()->image,
             ];
         }
 
@@ -94,18 +96,33 @@ class CustomAuthController extends Controller
 
     public function edit(Request $request)
     {
+//        dd($request->file('image'));
         if (Auth::check()) {
             $data = $request->validate([
                 'email' => ['email'],
                 'name' => ['string'],
                 'role' => ['string'],
+                'image' => ['file', 'mimes:png,jpg,jpeg'],
             ]);
 
+            // heto update profile um, photo avelacnelu hnaravorutyun sarqi,
+            // u vor upload aneluc heto profilum cuyc tas et photon
+
+            //Store the image
+//            Storage::put($data['image'], $request);
+            if ($request->hasFile('file')) {
+            }
+            $uid = Auth::id();
+            $fileName = time().'_'.$data['image']->getClientOriginalName();
+            $filePath = $data['image']->storeAs("/files/{$uid}/images", $fileName, 'public');
+
+//            Mail::to('ssss#')->send()
             try {
                 Auth::user()->update([
                     'name' => $data['name'],
                     'email' => $data['email'],
                     'role_id' => $data['role'],
+                    'image' => $filePath,
                 ]);
 
                 return redirect()->route('account');
@@ -124,6 +141,7 @@ class CustomAuthController extends Controller
     {
         Auth::logout();
 
+//        return redirect()->route('login')
         return Redirect('login');
     }
 

@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property string name
+ * @property string fullName
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -21,6 +26,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'image',
     ];
 
     /**
@@ -42,8 +48,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function roles()
+    public function role()
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function getFullNameAttribute()
+    {
+//        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function setFullNameAttribute($value)
+    {
+        $this->first_name = $value;
+    }
+
+//    protected function fullName(): Attribute
+//    {
+//        return Attribute::make(
+//            get: fn () => $this->first_name . ' ' . $this->last_name,
+//            set: fn () => $this->first_name . ' ' . $this->last_name,
+//        );
+//    }
 }

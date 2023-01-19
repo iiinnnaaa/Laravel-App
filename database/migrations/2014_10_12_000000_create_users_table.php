@@ -11,6 +11,10 @@ return new class extends Migration
      *
      * @return void
      */
+//     //users tableum migrationov photo column avelacra,
+//     //stringa linelu,
+    // heto update profile um, photo avelacnelu hnaravorutyun sarqi,
+    // u vor upload aneluc heto profilum cuyc tas et photon
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
