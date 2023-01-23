@@ -68,16 +68,19 @@ class CustomAuthController extends Controller
 
     public function verification()
     {
-        return view('emails.verification');
+        if(auth()->user()->is_verified){
+            return redirect()->route('home');
+        } else{
+            return view('emails.verification');
+        }
     }
 
     public function verify(Request $request)
     {
-        if ($request->verification_code == auth()->user()->code) {
+        if ($request->verification_code == auth()->user()->code && auth()->user()->is_verified == FALSE) {
            auth()->user()->update([
                'is_verified' => TRUE,
            ]);
-            auth()->logout();
             return view('emails.verified');
         }
     }

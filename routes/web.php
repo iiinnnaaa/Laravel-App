@@ -70,6 +70,7 @@ Route::middleware(['authenticated','is_verified'])->group(function () {
 //        Route::get('/update', [CustomAuthController::class, 'update'])->name('update');
 //        Route::post('/update', [CustomAuthController::class, 'edit'])->name('updated');
 //    });
+
 });
 
 //Route::get('/email/send', [SendEmailController::class, 'store'])->name('verification.notice');
