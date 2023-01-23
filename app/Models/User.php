@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 /**
  * @property string name
  * @property string fullName
+ * @property integer code
  */
 class User extends Authenticatable
 {
@@ -28,6 +29,7 @@ class User extends Authenticatable
         'password',
         'role_id',
         'image',
+        'code',
     ];
 
     /**

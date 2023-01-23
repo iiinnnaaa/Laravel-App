@@ -2,32 +2,21 @@
 
 namespace App\Mail\Auth;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\App;
 
 class EmailConfirmationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * @var \App\Models\User
-     */
-    protected $user;
+    protected $data;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct($user)
+    public function __construct($data)
     {
-        $this->user = $user;
+        $this->data = $data;
     }
 
     /**
@@ -49,11 +38,11 @@ class EmailConfirmationMail extends Mailable
      */
     public function content()
     {
-//        dd($this->user);
         return new Content(
             markdown: 'emails.confirmation',
             with: [
-                'user' => $this->user->name,
+                'user' => $this->data['name'],
+                'verification_code' => $this->data['code'],
             ]
         );
     }

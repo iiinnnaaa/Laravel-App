@@ -72,4 +72,8 @@ Route::middleware('authenticated')->group(function () {
 //    });
 });
 
-Route::get('/email/send', [SendEmailController::class, 'store'])->middleware('auth')->name('verification.notice');
+Route::get('/email/send', [SendEmailController::class, 'store'])->name('verification.notice');
+
+Route::get('verification', [CustomAuthController::class, 'verification'])->name('verification');
+Route::post('verification', [CustomAuthController::class, 'verify'])->name('verification');
+

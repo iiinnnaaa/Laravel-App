@@ -1,13 +1,11 @@
 <x-mail::message>
-# Introduction
+    Dear {{ $user }}, this is your verification code for
+    {{ config('app.name') }}
 
-The body of your message.
-    {{ $user }}
-
-<x-mail::button :url="'www.google.com'">
-Google
-</x-mail::button>
+<x-mail::panel>
+    {{ $verification_code }}
+</x-mail::panel>
 
 Thanks,<br>
-{{ config('app.name') }}
+{{ config('app.name') }} Admin
 </x-mail::message>
