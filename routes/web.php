@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SendEmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,5 +70,6 @@ Route::middleware('authenticated')->group(function () {
 //        Route::get('/update', [CustomAuthController::class, 'update'])->name('update');
 //        Route::post('/update', [CustomAuthController::class, 'edit'])->name('updated');
 //    });
-
 });
+
+Route::get('/email/send', [SendEmailController::class, 'store'])->middleware('auth')->name('verification.notice');
