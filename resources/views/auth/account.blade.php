@@ -10,7 +10,6 @@
         <div>Role: {{ $user['role'] }}</div>
     </div>
     <div class="image">
-{{--        <div>Image: {{ $user['image'] }}</div>--}}
         <img src='{{ asset("storage/{$user['image']}") }}' width="100" height="100">
         <div></div>
     </div>

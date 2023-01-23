@@ -6,6 +6,6 @@
     {{ $verification_code }}
 </x-mail::panel>
 
-Thanks,<br>
-{{ config('app.name') }} Admin
+    Thanks,<br>
+    {{ config('app.name') }} Admin
 </x-mail::message>

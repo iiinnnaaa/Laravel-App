@@ -1,6 +1,5 @@
 <form method="POST" action="{{ route('registration') }}">
     @csrf
-
     <!-- Email input -->
     <div class="form-outline mb-4">
         <label class="form-label" for="form1Example1">Name</label>
@@ -23,7 +22,7 @@
     <!-- Password input -->
     <div class="form-outline mb-4">
         <label class="form-label" for="form2Example2">Password</label>
-        <input type="password" id="form2Example2" class="form-control" name="password" />
+        <input type="password" id="form2Example2" class="form-control" name="password"/>
         @if ($errors->has('password'))
             <span class="text-danger">{{ $errors->first('password') }}</span>
         @endif

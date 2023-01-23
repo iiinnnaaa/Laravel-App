@@ -34,8 +34,8 @@
     @include('auth.roles')
 
     <div class="actions">
-    <a href="{{ url()->route('account') }}">Cancel</a>
-    <input type="submit" value="Save" class="btn btn-primary btn-block mb-4">
+        <a href="{{ url()->route('account') }}">Cancel</a>
+        <input type="submit" value="Save" class="btn btn-primary btn-block mb-4">
     </div>
 
 </form>

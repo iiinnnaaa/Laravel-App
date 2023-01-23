@@ -47,6 +47,7 @@ class CustomAuthController extends Controller
                 'role_id' => $request->role,
                 'code' => $code,
                 'password' => Hash::make($request->password),
+                'is_verified' => FALSE,
             ]);
 
             $data = [
@@ -73,10 +74,12 @@ class CustomAuthController extends Controller
     public function verify(Request $request)
     {
         if ($request->verification_code == auth()->user()->code) {
+           auth()->user()->update([
+               'is_verified' => TRUE,
+           ]);
             auth()->logout();
             return view('emails.verified');
         }
     }
-
 
 }

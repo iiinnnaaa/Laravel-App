@@ -53,7 +53,7 @@ Route::get('/users', function () {
     return UserResource::collection(User::all()->keyBy->id);
 });
 
-Route::middleware('authenticated')->group(function () {
+Route::middleware(['authenticated','is_verified'])->group(function () {
     Route::get('home', [HomeController::class, 'index'])->name('home');
 
     Route::get('account', [UserController::class, 'account'])->name('account');
@@ -72,7 +72,7 @@ Route::middleware('authenticated')->group(function () {
 //    });
 });
 
-Route::get('/email/send', [SendEmailController::class, 'store'])->name('verification.notice');
+//Route::get('/email/send', [SendEmailController::class, 'store'])->name('verification.notice');
 
 Route::get('verification', [CustomAuthController::class, 'verification'])->name('verification');
 Route::post('verification', [CustomAuthController::class, 'verify'])->name('verification');
