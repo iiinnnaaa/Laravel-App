@@ -12,11 +12,16 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return ProductResource::collection(Product::all());
+        /**
+         * TODO filter(search by name, description (partial)-> mysql fulltext index, price min, price max, category name,,,,pagination)
+         */
+//        return ProductResource::collection(Product::all());
+
+        return ProductResource::collection(Product::query()->paginate(3));
     }
 
     /**
@@ -44,7 +49,7 @@ class ProductController extends Controller
      * Display the specified resource.
      *
      * @param \App\Models\Product $product
-     * @return \Illuminate\Http\Response
+     * @return ProductResource
      */
     public function show(Product $product)
     {
