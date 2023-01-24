@@ -78,3 +78,4 @@ Route::middleware(['authenticated','is_verified'])->group(function () {
 Route::get('verification', [CustomAuthController::class, 'verification'])->name('verification');
 Route::post('verification', [CustomAuthController::class, 'verify'])->name('verification');
 
+Route::get('verification/resend', [CustomAuthController::class, 'resend'])->name('resend');

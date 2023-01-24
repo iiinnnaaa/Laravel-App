@@ -6,6 +6,9 @@
         <div class="code-wrapper">
             <label for="code">Verification code</label>
             <input type="number" name="verification_code">
+            @if ($errors->has('verification_code'))
+                <span class="text-danger">{{ $errors->first('verification_code') }}</span>
+            @endif
         </div>
         <div class="actions">
             <input type="submit" value="Verify">

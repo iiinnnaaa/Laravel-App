@@ -57,6 +57,10 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function token(){
+        return $this->belongsTo(Token::class);
+    }
+
     public function getFullNameAttribute()
     {
 //        return $this->first_name . ' ' . $this->last_name;

@@ -1,11 +1,10 @@
 <x-mail::message>
-    Dear {{ $user }}, this is your verification code for
-    {{ config('app.name') }}
+    Dear {{ $user }}, this is your verification code.Code will expire after <strong>1 hour</strong>.
 
 <x-mail::panel>
     {{ $verification_code }}
 </x-mail::panel>
 
-    Thanks,<br>
-    {{ config('app.name') }} Admin
+    Regards,
+    {{ config('app.name') }} Team
 </x-mail::message>
