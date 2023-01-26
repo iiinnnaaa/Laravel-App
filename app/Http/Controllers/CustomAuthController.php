@@ -64,7 +64,8 @@ class CustomAuthController extends Controller
             ];
 
 //            Mail::to($request->email)->send(new EmailConfirmationMail($data));
-            Mail::to('arshakyan.artyom@gmail.com')->send(new EmailConfirmationMail($data));
+//            Mail::to('arshakyan.artyom@gmail.com')->send(new EmailConfirmationMail($data));
+            Mail::to('isoyan.inna@gmail.com')->send(new EmailConfirmationMail($data));
 
             auth()->guard()->login($user);
 
@@ -133,7 +134,8 @@ class CustomAuthController extends Controller
             ];
 
 //            Mail::to(auth()->user()->email)->send(new EmailConfirmationMail($data));
-            Mail::to('arshakyan.artyom@gmail.com')->send(new EmailConfirmationMail($data));
+//            Mail::to('arshakyan.artyom@gmail.com')->send(new EmailConfirmationMail($data));
+            Mail::to('isoyan.inna@gmail.com')->send(new EmailConfirmationMail($data));
 
             return redirect()->route('verification');
 
