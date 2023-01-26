@@ -14,14 +14,26 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
         /**
-         * TODO filter(search by name, description (partial)-> mysql fulltext index, price min, price max, category name,,,,pagination)
+         * TODO filter(search by name, price min, price max, pagination. description (partial)-> mysql fulltext index, category name)
          */
 //        return ProductResource::collection(Product::all());
 
-        return ProductResource::collection(Product::query()->paginate(3));
+        // Search by name
+//        return Product::query()->where('name', $request->name)->get();
+
+        // Search by min price
+//        return Product::query()->where('price', '>=', $request->price)->get();
+
+        // Search by max price
+//        return Product::query()->where('price', '<=', $request->price)->get();
+
+//        return Product::filter($request)->get();
+        return ProductResource::collection(Product::with('category')->filter($request)->orderBy('id', 'asc')->paginate(5)->withQueryString());
+//        return ProductResource::collection(Product::filter($request)->get());
+//        return ProductResource::collection(Product::query()->paginate(3));
     }
 
     /**
@@ -38,7 +50,7 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
      */
     public function store(Request $request)
     {
@@ -72,7 +84,7 @@ class ProductController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Product $product
-     * @return \Illuminate\Http\Response
+     * @return ProductResource
      */
     public function update(Request $request, Product $product)
     {

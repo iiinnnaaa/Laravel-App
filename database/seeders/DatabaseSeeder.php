@@ -14,8 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//         \App\Models\User::factory(10)->create(['role_id'=>1]);
-//         \App\Models\Role::factory(10)->create();
+//         \App\Models\User::factory(10)->create(['role_id'=>1, 'is_verified'=>1]);
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
@@ -23,5 +22,6 @@ class DatabaseSeeder extends Seeder
         // ]);
 
 //        $this->call(RoleSeeder::class);
+//        $this->call(CategorySeeder::class);
     }
 }

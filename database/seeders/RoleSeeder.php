@@ -24,5 +24,17 @@ class RoleSeeder extends Seeder
             'name' => 'user',
             'user_id' => rand(1,11),
         ]);
+        DB::table('roles')->insert([
+            'name' => 'moderator',
+            'user_id' => rand(1,11),
+        ]);
+        DB::table('roles')->insert([
+            'name' => 'editor',
+            'user_id' => rand(1,11),
+        ]);
+        DB::table('roles')->insert([
+            'name' => 'client',
+            'user_id' => rand(1,11),
+        ]);
     }
 }
